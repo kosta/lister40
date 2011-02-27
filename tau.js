@@ -1,4 +1,11 @@
 armylister.addArmy("Tau", { 
+  "organization": {
+    {"name": "HQ", "mincount": 1, "maxcount": 2},
+    {"name": "Elite", "maxcount": 3},
+    {"name": "Troops", "mincount": 1, "maxcount": 6},
+    {"name": "Fast Attack", "maxcount": 3},
+    {"name": "Heavy Support", "maxcount": 3},
+  },
   "equipment": [
     //Battlesuit Weapon Systems
     {"name": "Airbusting Fragmentation Projector", "points": 20, "flags": ["battlesuit weapon", "special issue"]},
@@ -79,16 +86,34 @@ armylister.addArmy("Tau", {
           {"name": "Shas'vre", "points": 5, "maxcount": 1, "upgrades": [{"type": "equipment", "filter": ["+battlesuit wargear"]}]}
         ]}]}
       ]
-    }
+    },
     {"name": "Stealth Team", "type": "Elite",
       "troops":[{"name": "Shas'ui", "points": 30, "notes": [
         "Either all or none select wargear upgrades",
         "Max. 1 in 3 models may upgrade to fusion blaster"
-      ], "upgrades": [{"name": "Team Leader", "points": 5, "maxcount": 1, "upgrades": [
-          {"type": "equipment", "filter": ["+battlesuit wargear", "-special issue"]},
-          {"name": "Shas'vre", "points": 5, "maxcount": 1, "upgrades": [
-            {"type": "equipment", "name": "markerlight", "points": 10}]}
-        ]}]}]
-    }
+      ], "upgrades": [{"name": "Fusion blaster", "type": "equipment", "points": 2}, 
+          {"name": "Team Leader", "points": 5, "maxcount": 1, "upgrades": [
+            {"type": "equipment", "filter": ["+battlesuit wargear", "-special issue"]},
+            {"name": "Shas'vre", "points": 5, "maxcount": 1, "upgrades": [
+              {"type": "equipment", "name": "markerlight", "points": 10}]}]}
+        ]}]
+    },
+    {"name": "Fire Warriors", "type": "Troops", "mincount": 1, 
+      "troops":[{"name": "Shas'la", "points": 10, "mincount": 6, "maxcount": 12, "upgrades": [
+        {"name": "Pulse rifle", "type": "equipment", "points": 0},
+        {"name": "EMP grenades", "type": "equipment", "points": 3, "all": true},
+        {"name": "Photon grenades", "type": "equipment", "points": 1, "all": true}
+        {"name": "Shas'ui", "points": 10, "upgrades": [
+          {"type": "equipment", "filter": ["+infantry", "-special issue"]},
+          {"type": "equipment", "name": "markerlight", "points": 10}
+          ]}
+        {"name": "Devilfish", "type": "equipment", "points": 80, "maxcount": 1,
+          "upgrades": [{"name": "Smart missle system", "type": "equipment", "points": 20}
+            {"type": "equipment", "filter": ["+vehicle", "-special issue"]},
+          ]
+        } //devilfish
+        ]}]
+    },
+    {"name": "Kroot Carnivore Squad", "type": "Troops", }
   ]
 });
