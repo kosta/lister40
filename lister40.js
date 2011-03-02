@@ -8,5 +8,15 @@ lister40 = (function() {
     $('#armyselect').append('<option>'+name+'</option>');
   }
 
+  //event handler  
+  $(function() {
+    $('#newunitselect').change(function() {
+      
+    });
+    $('#armyselect').change(function() {
+      alert('selected: ' + $('#armyselect').val());
+    });
+  });
+  
   return o;
 })();
