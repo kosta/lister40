@@ -1,11 +1,11 @@
-armylister.addArmy("Tau", { 
-  "organization": {
+lister40.addArmy("Tau", { 
+  "organization": [
     {"name": "HQ", "mincount": 1, "maxcount": 2},
     {"name": "Elite", "maxcount": 3},
     {"name": "Troops", "mincount": 1, "maxcount": 6},
     {"name": "Fast Attack", "maxcount": 3},
     {"name": "Heavy Support", "maxcount": 3},
-  },
+  ],
   "equipment": [
     //Battlesuit Weapon Systems
     {"name": "Airbusting Fragmentation Projector", "points": 20, "flags": ["battlesuit weapon", "special issue"]},
@@ -43,7 +43,7 @@ armylister.addArmy("Tau", {
     {"name": "Hard-wired target lock", "points": 5, "count": 0, "flags": ["battlesuit wargear", "infantry"]},
     {"name": "Marker drone", "points": 30, "flags": ["battlesuit wargear", "infantry"]},
     {"name": "Shield Drone", "points": 15, "flags": ["battlesuit wargear", "infantry"]},
-    {"name": "Stimulant injector", "points": 10, "flags": ["battlesuit wargear", "special issue", "infantry"]}
+    {"name": "Stimulant injector", "points": 10, "flags": ["battlesuit wargear", "special issue", "infantry"]},
     //Infantry Wargear (rest is already included above)
     {"name": "EMP Grenades", "points":  5, "flags": ["infantry"]},
     {"name": "Honour Blade", "points":  10, "flags": ["ethereal"]},
@@ -59,13 +59,13 @@ armylister.addArmy("Tau", {
     {"name": "seeker missle", "points":  10, "maxcount": 2, "flags": ["vehicle"]},
   ],
   "units": [
-    {"name": "Commander", "mincount": 1, "type": "HQ"
+    {"name": "Commander", "mincount": 1, "type": "HQ",
       "troops": [
         {"name": "Shas'o", "points": 75, "mincount": 1, "maxcount": 1,
           "upgrades": [{"name": "Shas'el", "points": 25},
             {"type": "equipment", "filter": ["+battlesuit support", "+battlesuit weapon"], "mincount": 3, "maxcount": 3},
             {"type": "equipment", "filter": ["+battlesuit wargear"]}
-          ]}
+          ]},
         {"name": "Shas'vre", "points": 35, "mincount": 0, "maxcount": 2,
           "upgrades": [{"type": "equipment", "filter": ["+battlesuit support", "+battlesuit weapon"], "mincount": 3, "maxcount": 3},
             {"type": "equipment", "filter": ["+battlesuit wargear"]}
@@ -102,18 +102,29 @@ armylister.addArmy("Tau", {
       "troops":[{"name": "Shas'la", "points": 10, "mincount": 6, "maxcount": 12, "upgrades": [
         {"name": "Pulse rifle", "type": "equipment", "points": 0},
         {"name": "EMP grenades", "type": "equipment", "points": 3, "all": true},
-        {"name": "Photon grenades", "type": "equipment", "points": 1, "all": true}
+        {"name": "Photon grenades", "type": "equipment", "points": 1, "all": true},
         {"name": "Shas'ui", "points": 10, "upgrades": [
           {"type": "equipment", "filter": ["+infantry", "-special issue"]},
           {"type": "equipment", "name": "markerlight", "points": 10}
-          ]}
+          ]},
         {"name": "Devilfish", "type": "equipment", "points": 80, "maxcount": 1,
-          "upgrades": [{"name": "Smart missle system", "type": "equipment", "points": 20}
+          "upgrades": [{"name": "Smart missle system", "type": "equipment", "points": 20},
             {"type": "equipment", "filter": ["+vehicle", "-special issue"]},
           ]
         } //devilfish
         ]}]
     },
-    {"name": "Kroot Carnivore Squad", "type": "Troops", }
+    //{"name": "Kroot Carnivore Squad", "type": "Troops", }
+    {"name": "Hammerhead Gunship", "type": "Heavy Support",
+      "troops": [{"name": "Hammerhead", "mincount": 1, "maxcount": 1,
+        "points": 90, "upgrades": [
+          {"name": "Ion Cannon", "points": 15},
+          {"name": "Railgun", "points": 50},
+          {"name": "Two burst cannons", "points": 10},
+          {"name": "Pair of Gun Drones", "points": 20},
+          {"name": "Smart missle system", "points": 20},
+          {"type": "equipment", "filter": ["+vehicle", "-special issue"]}
+        ]}]
+    }
   ]
 });
