@@ -63,7 +63,7 @@ lister40 = (function() {
         subtotal = tmpl.points || 0;
       for(j = 0; j < m; ++j) {
         var num = $('#unit-'+unit.id+'-troop-'+j).val();
-        subtotal += (parseInt(num, 16) || 0) * tmpl.troops[j].points;
+        subtotal += (parseInt(num, 10) || 0) * tmpl.troops[j].points;
         //TODO: upgrades
       };
       $('#unit-points-'+unit.id).html(subtotal);
