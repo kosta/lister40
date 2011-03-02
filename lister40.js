@@ -20,13 +20,57 @@ lister40 = (function() {
   
   o.addUnit = function(name) {
     var unit = {
-      id: o.nextId(),
-      name: name
-    }, tmpl = o.army.units[name];
+        id: o.nextId(),
+        name: name
+      }, 
+      tmpl = o.army.units[name],
+      html = '<li id="unit-'+unit.id+'">' + tmpl.type + ' - ' + name,
+      i, n, j, troop
+      ;
+    o.list.units.push(unit);      
     
-    o.list.units.push(unit);
-    $('#list').append('<li id="unit-'+unit.id+'">' + tmpl.type + ' - ' + name + '</li>');
+    html += ' (<span id="unit-points-'+unit.id+'"></span> pts)<br>';
+    
+    n = tmpl.troops.length;
+    if (n > 0) {
+      html += '<ul class=troop>';
+      //for each troop
+      for(i = 0; i < n; ++i) {
+        troop = tmpl.troops[i];
+        html += '<li><select class=troopselect id="unit-'+unit.id+'-troop-'+i+'">'
+        for(j = (troop.mincount || 0); j <= (troop.maxcount || 20); ++j) {
+          html += '<option>' + j + '</option>';
+        }
+        html += '</select> ' + troop.name + ' (' + troop.points + ' pts) ';
+        //TODO: upgrades
+        html += '</li>'
+        }
+      html += '</ul>';
+    }
+    
+    html += '</li>';
+    $('#list').append(html);
+    $('.troopselect').change(o.updatePoints);
+    o.updatePoints();
   }
+  
+  o.updatePoints = function() {
+    var total = 0, i, n = o.list.units.length;
+    for(i = 0; i < n; ++i) {
+      var unit = o.list.units[i],
+        tmpl = o.army.units[unit.name],
+        j, m = tmpl.troops.length,
+        subtotal = tmpl.points || 0;
+      for(j = 0; j < m; ++j) {
+        var num = $('#unit-'+unit.id+'-troop-'+j).val();
+        subtotal += (parseInt(num, 16) || 0) * tmpl.troops[j].points;
+        //TODO: upgrades
+      };
+      $('#unit-points-'+unit.id).html(subtotal);
+      total += subtotal;
+    };
+    $('#army-points').html(total);
+  };
 
   //event handler  
   $(function() {
@@ -36,27 +80,22 @@ lister40 = (function() {
       o.army = o.armies[name];
       o.list = {_nextid: 0, units: []};
       sel.html('');
+      $('#army-points').html('0');
       if (!o.army) return;
       
       for(i in o.army.units) {
         var unit = o.army.units[i];
         sel.append('<option>' + unit.type + ' - ' + unit.name + '</option>');
       }
+      
+      o.updatePoints();
     });
     
 //    $('#newunitselect').change(function() {
 //      o.addUnit($('#newunitselect').val().split(' - ')[1]);  
 //    });
     $('#newunitbutton').click(function() { 
-      try {
-        o.addUnit($('#newunitselect').val().split(' - ')[1]);
-      } catch (e) {
-        if (console && console.log) {
-          console.log(e);
-        }
-      } finally {
-        return false;
-      }      
+      o.addUnit($('#newunitselect').val().split(' - ')[1]);
     });
     
     $('#armyselectbutton').click();
