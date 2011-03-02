@@ -9,13 +9,14 @@
     <p>A web-based army list creator for wh40k</p>
     <p>
       Army: 
-      <select id="armyselect">
-        <option>Please select</option>
-      </select>
+      <select id="armyselect"></select>
+      <input type=button value="Choose" id="armyselectbutton"></input>      
     </p>
-    <form id="newunitform" action="/">
-      <select id="newunitselect"></select> <input type=button value="Add"></input>
-    </form>
+    <p>
+      Unit: 
+      <select id="newunitselect"></select>
+      <input type=button value="Add" id="newunitbutton"></input>
+    </p>
   </body>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
   <script type="text/javascript" src="lister40.js"></script>

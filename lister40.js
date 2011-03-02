@@ -14,10 +14,11 @@ lister40 = (function() {
 
   //event handler  
   $(function() {
-    $('#armyselect').change(function() {
+    $('#armyselectbutton').click(function() {
       var name = $('#armyselect').val(),
         i, sel = $('#newunitselect');
       o.army = o.armies[name];
+      o.list = {};
       sel.html('');
       if (!o.army) return;
       
@@ -27,10 +28,10 @@ lister40 = (function() {
       }
     });
     
-    $('#newunitselect').change(function() {
-      o.addUnit($('#newunitselect').val().split(' - ')[1]);  
-    });
-    $('#newunitform').submit(function() { 
+//    $('#newunitselect').change(function() {
+//      o.addUnit($('#newunitselect').val().split(' - ')[1]);  
+//    });
+    $('#newunitbutton').click(function() { 
       try {
         o.addUnit($('#newunitselect').val().split(' - ')[1]);
       } catch (e) {
@@ -41,6 +42,8 @@ lister40 = (function() {
         return false;
       }      
     });
+    
+    $('#armyselectbutton').click();
   });
   
   return o;
