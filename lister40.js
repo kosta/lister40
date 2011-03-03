@@ -25,7 +25,7 @@ lister40 = (function() {
       }, 
       tmpl = o.army.units[name],
       html = '<li id="unit-'+unit.id+'">' + tmpl.type + ' - ' + name,
-      i, n, j, troop
+      i, n, j, m, troop
       ;
     o.list.units[unit.id] = unit;      
     
@@ -45,8 +45,27 @@ lister40 = (function() {
         }
         html += '</select> ' + troop.name + ' (' + troop.points + ' pts) ';
         //TODO: upgrades
-        html += '</li>'
+        //notes
+        m = (troop.notes && troop.notes.length) || 0;
+        if (m > 0) {
+          html += '<ul class=unitnotes>';
+          for(j = 0; j < m; ++j) {
+            html += '<li>' + troop.notes[j] + '</li>';
+          }
+          html += '</ul>';
         }
+        html += '</li>';
+        }
+      html += '</ul>';
+    }
+    
+    //notes
+    n = (tmpl.notes && tmpl.notes.length) || 0;
+    if (n > 0) {
+      html += '<ul>';
+      for(i = 0; i < n; ++i) {
+        html += '<li>' + tmpl.notes[i] + '</li>'
+      }
       html += '</ul>';
     }
     

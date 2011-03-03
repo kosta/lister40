@@ -116,6 +116,7 @@ lister40.addArmy("Tau", {
     },
     //{"name": "Kroot Carnivore Squad", "type": "Troops", }
     {"name": "Hammerhead Gunship", "type": "Heavy Support",
+      "notes": ["Either Ion Cannon or Railgun", "Select one of the other three weapon systems"],
       "troops": [{"name": "Hammerhead", "mincount": 1, "maxcount": 1,
         "points": 90, "upgrades": [
           {"name": "Ion Cannon", "points": 15},
