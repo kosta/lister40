@@ -151,6 +151,7 @@ lister40 = (function() {
       o.army = o.armies[name];
       o.list = {_nextid: 0, units: []};
       sel.html('');
+      $('#list').empty();
       $('#army-points').html('0');
       if (!o.army) return;
       
