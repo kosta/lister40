@@ -33,6 +33,26 @@ lister40 = (function() {
     
     html += ' - <input class=removeunit type=button value=remove id="unit-remove-'+unit.id+'"><br>';
     
+    //selects
+    n = (tmpl.selects && tmpl.selects.length) || 0;
+    if (n > 0) {
+      html += '<ul class=select>';
+      for(i = 0; i < n; ++i) {
+        html += "<li>" + tmpl.selects[i].name + ": ";
+        m = tmpl.selects[i].select.length;
+        html += '<select class=selectselect id="unit-'+unit.id+'-select-'+i+'">';
+        for(j = 0; j < m; ++j) {
+          var sel = tmpl.selects[i].select[j];
+          html += '<option>'+ sel.name + ' (' + sel.points + ' pts)</option>'
+        }
+        html += '</select>';
+        html += "</li>";
+      }
+      
+      html += '</ul>';
+    }
+    
+    //troops
     n = (tmpl.troops && tmpl.troops.length) || 0;
     if (n > 0) {
       html += '<ul class=troop>';
@@ -121,9 +141,6 @@ lister40 = (function() {
       o.updatePoints();
     });
     
-//    $('#newunitselect').change(function() {
-//      o.addUnit($('#newunitselect').val().split(' - ')[1]);  
-//    });
     $('#newunitbutton').click(function() { 
       o.addUnit($('#newunitselect').val().split(' - ')[1]);
     });
