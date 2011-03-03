@@ -73,22 +73,23 @@ lister40.addArmy("Tau", {
        ]
     },
     {"name": "Ethereal", "type": "HQ",
-      "troops": [{"name": "Ethereal", "points": 50, 
+      "troops": [{"name": "Ethereal", "points": 50, "mincount": 1, "maxcount": 1,
         "upgrades": [{"type": "equipment", "filter": ["+infantry", "+ethereal"]}]},
       //TODO: Special Firewarrior unit
       ]
     },
     {"name": "XV8 'Crisis' Battlesuit Team", "type": "Elite",
-      "troops": [{"name": "Shas'ui", "points": 25, "upgrades": [
-        {"type": "equipment", "filter": ["+battlesuit support", "+battlesuit weapon"], "mincount": 3, "maxcount": 3},
-        {"name": "Team Leader", "points": 5, "maxcount": 1, "upgrades": [
-          {"type": "equipment", "filter": ["+battlesuit wargear", "-special issue"]},
-          {"name": "Shas'vre", "points": 5, "maxcount": 1, "upgrades": [{"type": "equipment", "filter": ["+battlesuit wargear"]}]}
-        ]}]}
+      "troops": [{"name": "Shas'ui", "points": 25, "mincount":1, "maxcount":3 ,
+        "upgrades": [
+          {"type": "equipment", "filter": ["+battlesuit support", "+battlesuit weapon"], "mincount": 3, "maxcount": 3},
+          {"name": "Team Leader", "points": 5, "maxcount": 1, "upgrades": [
+            {"type": "equipment", "filter": ["+battlesuit wargear", "-special issue"]},
+            {"name": "Shas'vre", "points": 5, "maxcount": 1, "upgrades": [{"type": "equipment", "filter": ["+battlesuit wargear"]}]}
+          ]}]}
       ]
     },
     {"name": "Stealth Team", "type": "Elite",
-      "troops":[{"name": "Shas'ui", "points": 30, "notes": [
+      "troops":[{"name": "Shas'ui", "points": 30, "mincount": 3, "maxcount": 6, "notes": [
         "Either all or none select wargear upgrades",
         "Max. 1 in 3 models may upgrade to fusion blaster"
       ], "upgrades": [{"name": "Fusion blaster", "type": "equipment", "points": 2}, 
