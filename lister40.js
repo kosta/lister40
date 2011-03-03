@@ -33,7 +33,7 @@ lister40 = (function() {
     
     html += ' - <input class=removeunit type=button value=remove id="unit-remove-'+unit.id+'"><br>';
     
-    n = tmpl.troops.length;
+    n = (tmpl.troops && tmpl.troops.length) || 0;
     if (n > 0) {
       html += '<ul class=troop>';
       //for each troop
@@ -88,7 +88,8 @@ lister40 = (function() {
     for(i in o.list.units) {
       var unit = o.list.units[i],
         tmpl = o.army.units[unit.name],
-        j, m = tmpl.troops.length,
+        j, 
+        m = (tmpl.troops && tmpl.troops.length) || 0,
         subtotal = tmpl.points || 0;
       for(j = 0; j < m; ++j) {
         var num = $('#unit-'+unit.id+'-troop-'+j).val();
