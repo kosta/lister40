@@ -92,6 +92,7 @@ lister40 = (function() {
     html += '</li>';
     $('#list').append(html);
     $('.troopselect').change(o.updatePoints);
+    $('.selectselect').change(o.updatePoints);
     $('.removeunit').click(o.removeUnit);
     o.updatePoints();
   }

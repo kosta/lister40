@@ -618,7 +618,7 @@ lister40.addArmy("Tau", {
             "type": "Heavy Support",
             "points": 90,
             "notes": [
-                "With a Railgun, it's called Railhead",
+                "With a railgun, it's called Railhead",
                 "With an ion cannon, it's called Ionhead" 
             ],
             "selects": [
