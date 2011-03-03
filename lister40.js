@@ -27,9 +27,11 @@ lister40 = (function() {
       html = '<li id="unit-'+unit.id+'">' + tmpl.type + ' - ' + name,
       i, n, j, troop
       ;
-    o.list.units.push(unit);      
+    o.list.units[unit.id] = unit;      
     
-    html += ' (<span id="unit-points-'+unit.id+'"></span> pts)<br>';
+    html += ' (<span id="unit-points-'+unit.id+'"></span> pts)';
+    
+    html += ' - <input class=removeunit type=button value=remove id="unit-remove-'+unit.id+'"><br>';
     
     n = tmpl.troops.length;
     if (n > 0) {
@@ -51,12 +53,20 @@ lister40 = (function() {
     html += '</li>';
     $('#list').append(html);
     $('.troopselect').change(o.updatePoints);
+    $('.removeunit').click(o.removeUnit);
+    o.updatePoints();
+  }
+  
+  o.removeUnit = function(e) {
+    var unitid = e.currentTarget.id.split('-')[2];
+    $('#unit-'+unitid).remove();
+    delete o.list.units[unitid];
     o.updatePoints();
   }
   
   o.updatePoints = function() {
     var total = 0, i, n = o.list.units.length;
-    for(i = 0; i < n; ++i) {
+    for(i in o.list.units) {
       var unit = o.list.units[i],
         tmpl = o.army.units[unit.name],
         j, m = tmpl.troops.length,
