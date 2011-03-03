@@ -21,7 +21,8 @@ lister40 = (function() {
   o.addUnit = function(name) {
     var unit = {
         id: o.nextId(),
-        name: name
+        name: name,
+        selects: []
       }, 
       tmpl = o.army.units[name],
       html = '<li id="unit-'+unit.id+'">' + tmpl.type + ' - ' + name,
@@ -40,6 +41,8 @@ lister40 = (function() {
       for(i = 0; i < n; ++i) {
         html += "<li>" + tmpl.selects[i].name + ": ";
         m = tmpl.selects[i].select.length;
+        //add the first selection entry to the unit
+        unit.selects.push(0);
         html += '<select class=selectselect id="unit-'+unit.id+'-select-'+i+'">';
         for(j = 0; j < m; ++j) {
           var sel = tmpl.selects[i].select[j];
@@ -92,8 +95,18 @@ lister40 = (function() {
     html += '</li>';
     $('#list').append(html);
     $('.troopselect').change(o.updatePoints);
-    $('.selectselect').change(o.updatePoints);
+    $('.selectselect').change(o.selectChanged);
     $('.removeunit').click(o.removeUnit);
+    o.updatePoints();
+  }
+  
+  o.selectChanged = function(e) {
+    var split = e.currentTarget.id.split('-'),
+      unitid = split[1],
+      selectid = split[3],
+      unit = o.list.units[unitid];
+    unit.selects[selectid] = e.currentTarget.selectedIndex;
+    
     o.updatePoints();
   }
   
@@ -112,11 +125,18 @@ lister40 = (function() {
         j, 
         m = (tmpl.troops && tmpl.troops.length) || 0,
         subtotal = tmpl.points || 0;
+      //troops
       for(j = 0; j < m; ++j) {
         var num = $('#unit-'+unit.id+'-troop-'+j).val();
         subtotal += (parseInt(num, 10) || 0) * tmpl.troops[j].points;
-        //TODO: upgrades
+        //TODO: troop upgrades
       };
+      //selects
+      m = unit.selects.length;
+      for(j = 0; j < m; ++j) {
+        subtotal += tmpl.selects[j].select[unit.selects[j]].points;
+      }
+      //unit upgrades
       $('#unit-points-'+unit.id).html(subtotal);
       total += subtotal;
     };
