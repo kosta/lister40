@@ -18,7 +18,11 @@ lister40 = (function() {
         {type: func.name, idx: i}
         );
       }
-      o[it[prop]] = func(it);
+      if (func) {
+        o[it[prop]] = func(it);
+      } else {
+        o[it[prop]] = it;
+      }
     }
     return o;
   }
@@ -29,9 +33,9 @@ lister40 = (function() {
       return new Army(obj);
     }
     
-    this.organization = new Organization(obj.organization);
-    this.equipment = a2o(obj.equipment, 'short', Equipment);
-    this.units = a2o(obj.units, 'short', Unit);
+    this.organization = a2o(obj.organization, 'short');
+    this.equipment = a2o(obj.equipment, 'short'); //, Equipment);
+    this.units = a2o(obj.units, 'short') //, Unit);
   }
   
   var o = { 
