@@ -2,24 +2,29 @@ lister40.addArmy("Tau", {
     "organization": [
         {
             "name": "HQ",
+            "short": "HQ",
             "mincount": 1,
-            "maxcount": 2 
+            "maxcount": 2
         },
         {
             "name": "Elite",
+            "short": "E",
             "maxcount": 3 
         },
         {
             "name": "Troops",
+            "short": "T",
             "mincount": 1,
             "maxcount": 6 
         },
         {
             "name": "Fast Attack",
+            "short": "FA",
             "maxcount": 3 
         },
         {
             "name": "Heavy Support",
+            "short": "HS",
             "maxcount": 3 
         } 
     ],
@@ -375,7 +380,8 @@ lister40.addArmy("Tau", {
                     "upgrades": [
                         {
                             "name": "Shas'el",
-                            "points": 25 
+                            "points": 25,
+                            "type": "character"
                         },
                         {
                             "type": "equipment",
@@ -461,6 +467,7 @@ lister40.addArmy("Tau", {
                         },
                         {
                             "name": "Team Leader",
+                            "type": "character",                            
                             "points": 5,
                             "maxcount": 1,
                             "upgrades": [
@@ -473,6 +480,7 @@ lister40.addArmy("Tau", {
                                 },
                                 {
                                     "name": "Shas'vre",
+                                    "type": "character",                                    
                                     "points": 5,
                                     "maxcount": 1,
                                     "upgrades": [
@@ -512,6 +520,7 @@ lister40.addArmy("Tau", {
                         {
                             "name": "Team Leader",
                             "points": 5,
+                            "type": "character",                            
                             "maxcount": 1,
                             "upgrades": [
                                 {
@@ -523,6 +532,7 @@ lister40.addArmy("Tau", {
                                 },
                                 {
                                     "name": "Shas'vre",
+                                    "type": "character",                                    
                                     "points": 5,
                                     "maxcount": 1,
                                     "upgrades": [
@@ -570,6 +580,7 @@ lister40.addArmy("Tau", {
                         {
                             "name": "Shas'ui",
                             "points": 10,
+                            "type": "character",
                             "upgrades": [
                                 {
                                     "type": "equipment",

@@ -1,4 +1,39 @@
 lister40 = (function() {
+  function hop(o, prop) {
+    return {}.hasOwnProperty.call(o, prop);
+  }
+  
+  function a2o(a, prop, func) {
+    var i, n = a.length, o = {}, it;
+    for(i = 0; i < n; ++i) {
+      it = a[i];
+      if (!hop(it, prop)) {
+        throw Mustache.to_html(
+          'a2o: obj type "{{type}}" doesn\'t have property "{{prop}}" (at idx {{idx}})',
+          {type: func.name, prop: prop, idx: i});
+      }
+      if (hop(o, it[prop])) {
+        throw Mustache.to_html(
+        'a2o: obj type "{{type}}" already defined (at idx {{idx}})',
+        {type: func.name, idx: i}
+        );
+      }
+      o[it[prop]] = func(it);
+    }
+    return o;
+  }
+  
+  function Army(obj) {
+    //enforce correct usage
+    if (!(this instanceof Army)) {
+      return new Army(obj);
+    }
+    
+    this.organization = new Organization(obj.organization);
+    this.equipment = a2o(obj.equipment, 'short', Equipment);
+    this.units = a2o(obj.units, 'short', Unit);
+  }
+  
   var o = { 
     armies: {}
   };
@@ -67,7 +102,7 @@ lister40 = (function() {
           html += '<option>' + j + '</option>';
         }
         html += '</select> ' + troop.name + ' (' + troop.points + ' pts) ';
-        //TODO: upgrades
+        html += o.addUpgrades(unit, tmpl, i);
         //notes
         m = (troop.notes && troop.notes.length) || 0;
         if (m > 0) {
@@ -98,6 +133,38 @@ lister40 = (function() {
     $('.selectselect').change(o.selectChanged);
     $('.removeunit').click(o.removeUnit);
     o.updatePoints();
+  }
+  
+  o.addUpgrades = function(unit, tmpl, i) {
+    var upgrades = (i >= 0) ? tmpl.troops[i].upgrades : tmpl.upgrades,
+      id, j, 
+      html = '',
+      m = (upgrades && upgrades.length) || 0;
+    if (!m) { console.log('bye'); return};
+    
+    if (i >= 0) {
+      id = 'unit-'+unit.id+'-troop-'+tmpl.troops[i].id+'-upgrade-'+i; 
+    } else {
+      id = 'unit-'+unit.id+'-upgrade-'+i;
+    }
+    
+    html += '<li><select id="select-'+id+'">';
+    var gear = [];
+    for(j = 0; j < m; ++j) {
+      var up = upgrades[j];
+      if (up.filter) {
+      } else {
+        gear.push(up);
+      }
+    }
+    m = gear.length;
+    for(j = 0; j < m; ++j) {
+      html += '<option value="'+gear[j].id+'">' + 
+        gear[j].name + '(' + gear[j].points + ' pts)</option>';
+    }
+    html += '</select><input type=button id="button-'+id+'" value=add></li>';
+    
+    return html;
   }
   
   o.selectChanged = function(e) {
