@@ -4,21 +4,22 @@ lister40 = (function() {
   }
   
   function a2o(a, prop, func) {
-    var i, n = a.length, o = {}, it;
+    var i, n = a.length, o = {}, it,
+      funcname = (func instanceof Function) ? func.name : func;
     for(i = 0; i < n; ++i) {
       it = a[i];
       if (!hop(it, prop)) {
         throw Mustache.to_html(
           'a2o: obj type "{{type}}" doesn\'t have property "{{prop}}" (at idx {{idx}})',
-          {type: func.name, prop: prop, idx: i});
+          {type: funcname, prop: prop, idx: i});
       }
       if (hop(o, it[prop])) {
         throw Mustache.to_html(
-        'a2o: obj type "{{type}}" already defined (at idx {{idx}})',
-        {type: func.name, idx: i}
-        );
+        'a2o: obj type "{{type}}": {{prop}}: "{{val}}", name: "{{name}}" already defined ' +
+        'as name: "{{exname}}" (at idx {{idx}})',
+        {type: funcname, idx: i, prop: prop, val: it[prop], name: it.name, exname: o[it[prop]].name});
       }
-      if (func) {
+      if (func instanceof Function) {
         o[it[prop]] = func(it);
       } else {
         o[it[prop]] = it;
@@ -27,28 +28,63 @@ lister40 = (function() {
     return o;
   }
   
+  function UnitTemplate(obj) {
+    //enfore correct usage
+    if (!(this instanceof UnitTemplate)) {
+      return new UnitTemplate(obj);
+    }
+    
+    this.name = obj.name
+    this.short = obj.short
+    this.mincount = obj.mincount || 0;
+    this.maxcount = obj.maxcount || 0;
+    this.type = o.armyInConstruction.organization[obj.type];
+    if (!this.type) {
+      throw Mustache.to_html('Unit {{name}} doesn\'t have a valid type: "{{type}}"', 
+      {name: this.name, type: obj.type});
+    }
+    this.points = obj.points || 0;
+    this.troops = obj.troops || [];
+    this.selects = obj.selects || [];
+    this.notes = obj.notes || [];
+    this.upgrades = obj.upgrades || [];
+  }
+  
+  function Unit(tmpl) {
+    //enforce correct usage
+    if (!(this instanceof Unit)) {
+      return new Unit(obj)
+    }
+    
+    this.id = o.nextId();
+    this.selects = [];
+    this.troops = [];
+    this.tmpl = tmpl;    
+  }
+  
   function Army(obj) {
     //enforce correct usage
     if (!(this instanceof Army)) {
       return new Army(obj);
     }
     
+    //dirty hack - sorry about that
+    o.armyInConstruction = this;
+    
     this.organization = a2o(obj.organization, 'short');
-    this.equipment = a2o(obj.equipment, 'short'); //, Equipment);
-    this.units = a2o(obj.units, 'short') //, Unit);
+    this.equipment = a2o(obj.equipment, 'short', 'Equipment');
+    this.units = a2o(obj.units, 'short', UnitTemplate);
+    
+    delete o.armyInConstruction;
   }
   
   var o = { 
     armies: {}
   };
 
-  o.addArmy = function(name, army) {
+  o.addArmy = function(name, obj) {
+    var army = new Army(obj);
     o.armies[name] = army;
-    var units = {}, i, n = army.units.length;
-    for(i = 0; i < n; ++i) {
-      units[army.units[i].name] = army.units[i];
-    }
-    army.units = units;
     $('#armyselect').append('<option>'+name+'</option>');
   }
   
@@ -57,34 +93,29 @@ lister40 = (function() {
     return o.list._nextid++;
   }
   
-  o.addUnit = function(name) {
-    var unit = {
-        id: o.nextId(),
-        name: name,
-        selects: []
-      }, 
-      tmpl = o.army.units[name],
-      html = '<li id="unit-'+unit.id+'">' + tmpl.type + ' - ' + name,
-      i, n, j, m, troop
-      ;
+  o.addUnit = function(short) {
+    var unit = new Unit(o.army.units[short]),
+      html,i, n, j, m, troop;
     o.list.units[unit.id] = unit;      
     
-    html += ' (<span id="unit-points-'+unit.id+'"></span> pts)';
-    
-    html += ' - <input class=removeunit type=button value=remove id="unit-remove-'+unit.id+'"><br>';
+    html = Mustache.to_html(
+      '<li id="unit-{{id}}"> {{type}} - {{name}}' +
+      '(<span id="unit-points-{{id}}"></span> pts)' + 
+      ' - <input class=removeunit type=button value=remove id="unit-remove-{{id}}"><br>', 
+      {id: unit.id, type: unit.tmpl.type.name, name: unit.tmpl.name});
     
     //selects
-    n = (tmpl.selects && tmpl.selects.length) || 0;
+    n = unit.tmpl.selects.length;
     if (n > 0) {
       html += '<ul class=select>';
       for(i = 0; i < n; ++i) {
-        html += "<li>" + tmpl.selects[i].name + ": ";
-        m = tmpl.selects[i].select.length;
+        html += "<li>" + unit.tmpl.selects[i].name + ": ";
+        m = unit.tmpl.selects[i].select.length;
         //add the first selection entry to the unit
         unit.selects.push(0);
         html += '<select class=selectselect id="unit-'+unit.id+'-select-'+i+'">';
         for(j = 0; j < m; ++j) {
-          var sel = tmpl.selects[i].select[j];
+          var sel = unit.tmpl.selects[i].select[j];
           html += '<option>'+ sel.name + ' (' + sel.points + ' pts)</option>'
         }
         html += '</select>';
@@ -95,18 +126,18 @@ lister40 = (function() {
     }
     
     //troops
-    n = (tmpl.troops && tmpl.troops.length) || 0;
+    n = unit.tmpl.troops.length;
     if (n > 0) {
       html += '<ul class=troop>';
       //for each troop
       for(i = 0; i < n; ++i) {
-        troop = tmpl.troops[i];
+        troop = unit.tmpl.troops[i];
         html += '<li><select class=troopselect id="unit-'+unit.id+'-troop-'+i+'">'
         for(j = (troop.mincount || 0); j <= (troop.maxcount || 20); ++j) {
           html += '<option>' + j + '</option>';
         }
         html += '</select> ' + troop.name + ' (' + troop.points + ' pts) ';
-        html += o.addUpgrades(unit, tmpl, i);
+        html += o.addUpgrades(unit, i);
         //notes
         m = (troop.notes && troop.notes.length) || 0;
         if (m > 0) {
@@ -122,11 +153,11 @@ lister40 = (function() {
     }
     
     //notes
-    n = (tmpl.notes && tmpl.notes.length) || 0;
+    n = unit.tmpl.notes.length;
     if (n > 0) {
       html += '<ul>';
       for(i = 0; i < n; ++i) {
-        html += '<li>' + tmpl.notes[i] + '</li>'
+        html += '<li>' + unit.tmpl.notes[i] + '</li>'
       }
       html += '</ul>';
     }
@@ -139,7 +170,10 @@ lister40 = (function() {
     o.updatePoints();
   }
   
-  o.addUpgrades = function(unit, tmpl, i) {
+  o.addUpgrades = function(unit, i) {
+    //TODO: fixme
+    return '';
+    
     var upgrades = (i >= 0) ? tmpl.troops[i].upgrades : tmpl.upgrades,
       id, j, 
       html = '',
@@ -192,7 +226,7 @@ lister40 = (function() {
     var total = 0, i, n = o.list.units.length;
     for(i in o.list.units) {
       var unit = o.list.units[i],
-        tmpl = o.army.units[unit.name],
+        tmpl = unit.tmpl,
         j, 
         m = (tmpl.troops && tmpl.troops.length) || 0,
         subtotal = tmpl.points || 0;
@@ -228,14 +262,16 @@ lister40 = (function() {
       
       for(i in o.army.units) {
         var unit = o.army.units[i];
-        sel.append('<option>' + unit.type + ' - ' + unit.name + '</option>');
+        sel.append(Mustache.to_html(
+          '<option value="{{short}}">{{type}} - {{name}}</option>', 
+          {short: unit.short, type: unit.type.short, name: unit.name}));
       }
       
       o.updatePoints();
     });
     
     $('#newunitbutton').click(function() { 
-      o.addUnit($('#newunitselect').val().split(' - ')[1]);
+      o.addUnit($('#newunitselect').val());
     });
     
     $('#armyselectbutton').click();

@@ -31,6 +31,7 @@ lister40.addArmy("Tau", {
     "equipment": [
         {
             "name": "Airbusting Fragmentation Projector",
+            "short": "AFP",
             "points": 20,
             "flags": [
                 "battlesuit weapon",
@@ -39,6 +40,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Burst cannon",
+            "short": "BC",
             "points": 8,
             "flags": [
                 "battlesuit weapon" 
@@ -46,6 +48,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Burst cannon Twin-Linked",
+            "short": "BCTL",
             "points": 12,
             "flags": [
                 "battlesuit weapon" 
@@ -53,6 +56,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Cyclic Ion Blaser",
+            "short": "CIB",
             "points": 15,
             "flags": [
                 "battlesuit weapon",
@@ -61,6 +65,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Flamer",
+            "short": "FL",
             "points": 12,
             "flags": [
                 "battlesuit weapon" 
@@ -68,6 +73,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Flamer Twin-Linked",
+            "short": "FLTL",
             "points": 18,
             "flags": [
                 "battlesuit weapon" 
@@ -75,6 +81,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Fusion blaster",
+            "short": "FB",
             "points": 12,
             "flags": [
                 "battlesuit weapon" 
@@ -82,6 +89,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Fusion blaster Twin-Linked",
+            "short": "FBTL",
             "points": 18,
             "flags": [
                 "battlesuit weapon" 
@@ -89,6 +97,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Missle pod",
+            "short": "MP",
             "points": 12,
             "flags": [
                 "battlesuit weapon" 
@@ -96,6 +105,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Missle pod Twin-Linked",
+            "short": "MPTL",
             "points": 18,
             "flags": [
                 "battlesuit weapon" 
@@ -103,6 +113,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Plasma rifle",
+            "short": "PR",
             "points": 20,
             "flags": [
                 "battlesuit weapon" 
@@ -110,6 +121,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Plasma rifle Twin-Linked",
+            "short": "PRTL",
             "points": 30,
             "flags": [
                 "battlesuit weapon" 
@@ -117,6 +129,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Advanced Stabilisation System",
+            "short": "ASS",
             "points": 10,
             "flags": [
                 "battlesuit support" 
@@ -124,6 +137,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Blacksun Filter",
+            "short": "BF",
             "points": 3,
             "flags": [
                 "battlesuit support" 
@@ -131,6 +145,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Command & Control node",
+            "short": "CCN",
             "points": 10,
             "flags": [
                 "battlesuit support",
@@ -139,6 +154,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Drone Controller",
+            "short": "DC",
             "points": 0,
             "flags": [
                 "battlesuit support" 
@@ -146,6 +162,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Multi-Tracker",
+            "short": "MT",
             "points": 5,
             "flags": [
                 "battlesuit support" 
@@ -153,6 +170,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Positional Relay",
+            "short": "POSR",
             "points": 15,
             "flags": [
                 "battlesuit support",
@@ -161,6 +179,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Shield generator",
+            "short": "SG",
             "points": 20,
             "flags": [
                 "battlesuit support" 
@@ -168,13 +187,15 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Target lock",
+            "short": "TL",
             "points": 5,
             "flags": [
-                "battlesuit support" 
+                "battlesuit support", "vehicle"
             ] 
         },
         {
             "name": "Targetting array",
+            "short": "TA",
             "points": 10,
             "flags": [
                 "battlesuit support" 
@@ -182,6 +203,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Vectored retro-thrusters",
+            "short": "VRT",
             "points": 10,
             "flags": [
                 "battlesuit support",
@@ -190,6 +212,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Bonding Knife",
+            "short": "BK",
             "points": 5,
             "flags": [
                 "battlesuit wargear",
@@ -198,6 +221,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Ejection System",
+            "short": "ES",
             "points": 15,
             "flags": [
                 "battlesuit wargear",
@@ -206,6 +230,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Failsafe detonator",
+            "short": "FAILD",
             "points": 15,
             "flags": [
                 "battlesuit wargear",
@@ -214,6 +239,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Gun Drone",
+            "short": "GD",
             "points": 10,
             "flags": [
                 "battlesuit wargear" 
@@ -221,6 +247,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Iridium Armor",
+            "short": "IA",
             "points": 20,
             "flags": [
                 "battlesuit wargear" 
@@ -228,6 +255,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Hard-wired blacksun filter",
+            "short": "HWBF",
             "points": 3,
             "count": 0,
             "flags": [
@@ -237,6 +265,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Hard-wired drone controller",
+            "short": "HWDC",
             "points": 0,
             "count": 0,
             "flags": [
@@ -246,6 +275,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Hard-wired multi-tracker",
+            "short": "HWMT",
             "points": 5,
             "count": 0,
             "flags": [
@@ -255,6 +285,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Hard-wired target lock",
+            "short": "HWTL",
             "points": 5,
             "count": 0,
             "flags": [
@@ -264,6 +295,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Marker drone",
+            "short": "MD",
             "points": 30,
             "flags": [
                 "battlesuit wargear",
@@ -272,6 +304,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Shield Drone",
+            "short": "SD",
             "points": 15,
             "flags": [
                 "battlesuit wargear",
@@ -280,6 +313,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Stimulant injector",
+            "short": "SI",
             "points": 10,
             "flags": [
                 "battlesuit wargear",
@@ -289,6 +323,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "EMP Grenades",
+            "short": "EMPG",
             "points": 5,
             "flags": [
                 "infantry" 
@@ -296,6 +331,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Honour Blade",
+            "short": "HB",
             "points": 10,
             "flags": [
                 "ethereal" 
@@ -303,6 +339,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Sensor spines",
+            "short": "SS",
             "points": 10,
             "flags": [
                 "vehicle" 
@@ -310,6 +347,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Targeting array",
+            "short": "TA_V",
             "points": 5,
             "flags": [
                 "vehicle" 
@@ -317,6 +355,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Multi-tracker",
+            "short": "MT_V",
             "points": 10,
             "flags": [
                 "vehicle" 
@@ -324,13 +363,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Blacksun Filter",
-            "points": 5,
-            "flags": [
-                "vehicle" 
-            ] 
-        },
-        {
-            "name": "Target Lock",
+            "short": "BF_V",
             "points": 5,
             "flags": [
                 "vehicle" 
@@ -338,6 +371,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Flechette Discharger",
+            "short": "FD",
             "points": 10,
             "flags": [
                 "vehicle" 
@@ -345,6 +379,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Disruption Pod",
+            "short": "DP",
             "points": 5,
             "flags": [
                 "vehicle" 
@@ -352,13 +387,15 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Decoy launchers",
+            "short": "DL",
             "points": 5,
             "flags": [
                 "vehicle" 
             ] 
         },
         {
-            "name": "seeker missle",
+            "name": "Seeker missle",
+            "short": "SM",
             "points": 10,
             "maxcount": 2,
             "flags": [
@@ -369,6 +406,7 @@ lister40.addArmy("Tau", {
     "units": [
         {
             "name": "Commander",
+            "short": "COM",
             "mincount": 1,
             "type": "HQ",
             "troops": [
@@ -427,6 +465,7 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Ethereal",
+            "short": "ETH",
             "type": "HQ",
             "troops": [
                 {
@@ -448,7 +487,8 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "XV8 'Crisis' Battlesuit Team",
-            "type": "Elite",
+            "short": "VX8",
+            "type": "E",
             "troops": [
                 {
                     "name": "Shas'ui",
@@ -500,7 +540,8 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Stealth Team",
-            "type": "Elite",
+            "short": "VX15",
+            "type": "E",
             "troops": [
                 {
                     "name": "Shas'ui",
@@ -551,7 +592,8 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Fire Warriors",
-            "type": "Troops",
+            "short": "FW",
+            "type": "T",
             "mincount": 1,
             "troops": [
                 {
@@ -622,11 +664,13 @@ lister40.addArmy("Tau", {
         },
         {
             "name": "Kroot Carnivore Squad",
-            "type": "Troops" 
+            "type": "T", 
+            "short": "KROOT"
         },
         {
             "name": "Hammerhead Gunship",
-            "type": "Heavy Support",
+            "short": "HH",
+            "type": "HS",
             "points": 90,
             "notes": [
                 "With a railgun, it's called Railhead",
