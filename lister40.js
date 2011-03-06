@@ -242,12 +242,36 @@ lister40 = (function() {
       var up = upgrades[i];
       html += Mustache.to_html(
         (up.count || up.points) ? 
-        '<option value="{id}">{{name}} ({{points}} pts)</option>' :
-        '<option value="{id}">{{name}}</option>',
+        '<option value="{{short}}">{{name}} ({{points}} pts)</option>' :
+        '<option value="{{short}}">{{name}}</option>',
         up);
     }
     
     html += '</select><input type=button id="button-'+id+'" value=add></li></ul>';
+    
+    //hackeldihack
+    setTimeout(function() {
+      $('#button-'+id).click(function(e) {
+        
+          function findupgrade(short, troonit, equipment) {
+            return equipment[short];
+          };
+        
+        var ids = e.currentTarget.id.split('-'),
+          troonit, //troop or unit :)
+          up, sel;
+        sel = $('#select-' + ids.slice(1).join('-') + ' option:selected').val();
+        if (ids[3] === 'troop') {
+          troonit = o.list.units[ids[2]].troops[ids[4]];
+        } else {
+          troonit = o.list.units[ids[4]];
+        }
+        up = findupgrade(sel, troonit, o.army.equipment);
+        console.log('adding upgrade', up, 'to unit', troonit.name);
+        troonit.upgrades.push(up);
+        o.updatePoints();
+      })
+    });
     
     return html;
   }
@@ -276,13 +300,17 @@ lister40 = (function() {
         tmpl = unit.tmpl,
         j, 
         m = (tmpl.troops && tmpl.troops.length) || 0,
+        tu, tulen,
         subtotal = tmpl.points || 0;
       //troops
       for(j = 0; j < m; ++j) {
         var num = $('#unit-'+unit.id+'-troop-'+j).val();
         subtotal += (parseInt(num, 10) || 0) * tmpl.troops[j].points;
-        //TODO: troop upgrades
-      };
+        tu = unit.troops[j].upgrades.length;
+        for(tu = 0; tu < o; ++k) {
+          subtotal += unit.troops[j].upgrades[tu].points;
+        }
+      }
       //selects
       m = unit.selects.length;
       for(j = 0; j < m; ++j) {
