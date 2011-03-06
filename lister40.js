@@ -113,6 +113,7 @@ lister40 = (function() {
     this.tmpl = tmpl;    
     this.selects = [];
     this.troops = [];
+    this.upgrades = [];
     //fill troops
     var i, n = this.tmpl.troops.length;
     for(i = 0; i < n; ++i) {
@@ -205,6 +206,8 @@ lister40 = (function() {
       html += '</ul>';
     }
     
+    html += o.addUpgradeSelector(unit.tmpl.upgrades, unit.id, undefined, unit.upgrades.length);
+    
     //notes
     n = unit.tmpl.notes.length;
     if (n > 0) {
@@ -231,7 +234,7 @@ lister40 = (function() {
     if (troopid !== undefined) {
       id = 'unit-'+unitid+'-troop-'+troopid+'-upgrade-'+upgradeid; 
     } else {
-      id = 'unit-'+unit.id+'-upgrade-'+upgradeid;
+      id = 'unit-'+unitid+'-upgrade-'+upgradeid;
     }
     
     html += '<ul><li><select id="select-'+id+'">';
