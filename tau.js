@@ -423,6 +423,7 @@ lister40.addArmy("Tau", {
                         },
                         {
                             "type": "equipment",
+                            "name": "battlesuit weapon and support",
                             "filter": [
                                 "+battlesuit support",
                                 "+battlesuit weapon" 
@@ -432,6 +433,7 @@ lister40.addArmy("Tau", {
                         },
                         {
                             "type": "equipment",
+                            "name": "battlesuit wargear",
                             "filter": [
                                 "+battlesuit wargear" 
                             ] 
@@ -446,6 +448,7 @@ lister40.addArmy("Tau", {
                     "upgrades": [
                         {
                             "type": "equipment",
+                            "name": "battlesuit weapon and support",
                             "filter": [
                                 "+battlesuit support",
                                 "+battlesuit weapon" 
@@ -455,6 +458,7 @@ lister40.addArmy("Tau", {
                         },
                         {
                             "type": "equipment",
+                            "name": "battlesuit wargear",                            
                             "filter": [
                                 "+battlesuit wargear" 
                             ] 
@@ -476,6 +480,7 @@ lister40.addArmy("Tau", {
                     "upgrades": [
                         {
                             "type": "equipment",
+                            "name": "equipment",
                             "filter": [
                                 "+infantry",
                                 "+ethereal" 
@@ -498,6 +503,7 @@ lister40.addArmy("Tau", {
                     "upgrades": [
                         {
                             "type": "equipment",
+                            "name": "battlesuit weapon and support",
                             "filter": [
                                 "+battlesuit support",
                                 "+battlesuit weapon" 
@@ -513,6 +519,7 @@ lister40.addArmy("Tau", {
                             "upgrades": [
                                 {
                                     "type": "equipment",
+                                    "name": "battlesuit wargear",
                                     "filter": [
                                         "+battlesuit wargear",
                                         "-special issue" 
@@ -526,6 +533,7 @@ lister40.addArmy("Tau", {
                                     "upgrades": [
                                         {
                                             "type": "equipment",
+                                            "name": "battlesuit wargear",                                            
                                             "filter": [
                                                 "+battlesuit wargear" 
                                             ] 
@@ -566,6 +574,7 @@ lister40.addArmy("Tau", {
                             "upgrades": [
                                 {
                                     "type": "equipment",
+                                    "name": "battlesuit wargear",                                    
                                     "filter": [
                                         "+battlesuit wargear",
                                         "-special issue" 
@@ -626,16 +635,17 @@ lister40.addArmy("Tau", {
                             "upgrades": [
                                 {
                                     "type": "equipment",
+                                    "name": "markerlight",
+                                    "points": 10 
+                                },                            
+                                {
+                                    "type": "equipment",
+                                    "name": "equipment",
                                     "filter": [
                                         "+infantry",
                                         "-special issue" 
                                     ] 
-                                },
-                                {
-                                    "type": "equipment",
-                                    "name": "markerlight",
-                                    "points": 10 
-                                } 
+                                }
                             ] 
                         },
                         {
@@ -651,6 +661,7 @@ lister40.addArmy("Tau", {
                                 },
                                 {
                                     "type": "equipment",
+                                    "name": "equipment",
                                     "filter": [
                                         "+vehicle",
                                         "-special issue" 
@@ -711,6 +722,7 @@ lister40.addArmy("Tau", {
             "upgrades": [
                 {
                     "type": "equipment",
+                    "name": "equipment",                    
                     "filter": [
                         "+vehicle",
                         "-special issue" 

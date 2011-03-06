@@ -3,7 +3,11 @@ lister40 = (function() {
     return {}.hasOwnProperty.call(o, prop);
   }
   
-  function a2o(a, prop, func) {
+  function strcmp(a, b) {
+    return (a === b) ? 0 : (a < b ? -1 : 1);
+  }
+  
+  function a2o(a, prop, func, context) {
     var i, n = a.length, o = {}, it,
       funcname = (func instanceof Function) ? func.name : func;
     for(i = 0; i < n; ++i) {
@@ -20,7 +24,7 @@ lister40 = (function() {
         {type: funcname, idx: i, prop: prop, val: it[prop], name: it.name, exname: o[it[prop]].name});
       }
       if (func instanceof Function) {
-        o[it[prop]] = func(it);
+        o[it[prop]] = func(it, context);
       } else {
         o[it[prop]] = it;
       }
@@ -28,26 +32,75 @@ lister40 = (function() {
     return o;
   }
   
-  function UnitTemplate(obj) {
+  function UnitTemplate(obj, army) {
+    
+      function getUpgrades(upgrades, army) {
+        var i, n = (upgrades && upgrades.length) || 0, 
+          result = [], up, filtered, subresult, j, m, eqi, cat, whitelisted;
+        for(i = 0; i < n; ++i) {
+          up = upgrades[i];
+          if (up.filter) {
+            filtered = {};
+            m = up.filter.length;
+            for(j = 0; j < m; ++j) {
+              whitelisted = true;
+              switch (up.filter[j].charAt(0)) {
+                case '+':
+                  cat = up.filter[j].substr(1);
+                  break;
+                case '-':
+                  whitelisted = false;
+                  cat = up.filter[j].substr(1);
+                  break;
+                default:
+                  cat = up.filter[j];
+              }
+              for(eqi in army.equipment) {
+                var matches = army.equipment[eqi].flags.indexOf(cat) !== -1;
+                if (matches) {
+                  filtered[eqi] = whitelisted;
+                }
+              }
+            }
+            subresult = [{name: '--- ' + up.name, points: 0, count: 0}];
+            for(eqi in filtered) {
+              if (filtered[eqi]) {
+                subresult.push(army.equipment[eqi]);
+              }
+            }
+            subresult.sort(function(a,b) { return strcmp(a.name, b.name); });
+            result = result.concat(subresult);
+          } else { //no filter
+            result.push(up);
+          }
+        }
+        return result;
+      }
+    
     //enfore correct usage
     if (!(this instanceof UnitTemplate)) {
-      return new UnitTemplate(obj);
+      return new UnitTemplate(obj, army);
     }
     
     this.name = obj.name
     this.short = obj.short
     this.mincount = obj.mincount || 0;
     this.maxcount = obj.maxcount || 0;
-    this.type = o.armyInConstruction.organization[obj.type];
+    this.type = army.organization[obj.type];
     if (!this.type) {
       throw Mustache.to_html('Unit {{name}} doesn\'t have a valid type: "{{type}}"', 
       {name: this.name, type: obj.type});
     }
     this.points = obj.points || 0;
     this.troops = obj.troops || [];
+    var i, n = this.troops.length;
+    for(i = 0; i < n; ++i) {
+      this.troops[i].upgrades = getUpgrades(this.troops[i].upgrades, army);
+    }
+    
     this.selects = obj.selects || [];
     this.notes = obj.notes || [];
-    this.upgrades = obj.upgrades || [];
+    this.upgrades = getUpgrades(obj.upgrades, army);
   }
   
   function Unit(tmpl) {
@@ -57,9 +110,14 @@ lister40 = (function() {
     }
     
     this.id = o.nextId();
+    this.tmpl = tmpl;    
     this.selects = [];
     this.troops = [];
-    this.tmpl = tmpl;    
+    //fill troops
+    var i, n = this.tmpl.troops.length;
+    for(i = 0; i < n; ++i) {
+      this.troops.push({upgrades:[]});
+    }
   }
   
   function Army(obj) {
@@ -68,14 +126,9 @@ lister40 = (function() {
       return new Army(obj);
     }
     
-    //dirty hack - sorry about that
-    o.armyInConstruction = this;
-    
     this.organization = a2o(obj.organization, 'short');
     this.equipment = a2o(obj.equipment, 'short', 'Equipment');
-    this.units = a2o(obj.units, 'short', UnitTemplate);
-    
-    delete o.armyInConstruction;
+    this.units = a2o(obj.units, 'short', UnitTemplate, this);
   }
   
   var o = { 
@@ -137,7 +190,7 @@ lister40 = (function() {
           html += '<option>' + j + '</option>';
         }
         html += '</select> ' + troop.name + ' (' + troop.points + ' pts) ';
-        html += o.addUpgrades(unit, i);
+        html += o.addUpgradeSelector(troop.upgrades, unit.id, i, unit.troops[i].upgrades.length);
         //notes
         m = (troop.notes && troop.notes.length) || 0;
         if (m > 0) {
@@ -170,37 +223,28 @@ lister40 = (function() {
     o.updatePoints();
   }
   
-  o.addUpgrades = function(unit, i) {
-    //TODO: fixme
-    return '';
+  o.addUpgradeSelector = function(upgrades, unitid, troopid, upgradeid) {
+    var html = '', i, n = upgrades.length, id;
+    //nothing to do?
+    if (!n) { return []; };
     
-    var upgrades = (i >= 0) ? tmpl.troops[i].upgrades : tmpl.upgrades,
-      id, j, 
-      html = '',
-      m = (upgrades && upgrades.length) || 0;
-    if (!m) { console.log('bye'); return};
-    
-    if (i >= 0) {
-      id = 'unit-'+unit.id+'-troop-'+tmpl.troops[i].id+'-upgrade-'+i; 
+    if (troopid !== undefined) {
+      id = 'unit-'+unitid+'-troop-'+troopid+'-upgrade-'+upgradeid; 
     } else {
-      id = 'unit-'+unit.id+'-upgrade-'+i;
+      id = 'unit-'+unit.id+'-upgrade-'+upgradeid;
     }
     
-    html += '<li><select id="select-'+id+'">';
-    var gear = [];
-    for(j = 0; j < m; ++j) {
-      var up = upgrades[j];
-      if (up.filter) {
-      } else {
-        gear.push(up);
-      }
+    html += '<ul><li><select id="select-'+id+'">';
+    for(i = 0; i < n; ++i) {
+      var up = upgrades[i];
+      html += Mustache.to_html(
+        (up.count || up.points) ? 
+        '<option value="{id}">{{name}} ({{points}} pts)</option>' :
+        '<option value="{id}">{{name}}</option>',
+        up);
     }
-    m = gear.length;
-    for(j = 0; j < m; ++j) {
-      html += '<option value="'+gear[j].id+'">' + 
-        gear[j].name + '(' + gear[j].points + ' pts)</option>';
-    }
-    html += '</select><input type=button id="button-'+id+'" value=add></li>';
+    
+    html += '</select><input type=button id="button-'+id+'" value=add></li></ul>';
     
     return html;
   }
